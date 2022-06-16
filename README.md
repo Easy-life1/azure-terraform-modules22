@@ -1,36 +1,35 @@
-# Deploy AKS in custom VNET, with Kubenet plugin using Terraform
+# Deploy AKS with 3 tier Networking and Container Registry
 
-This repository contains all you need to use Terraform to deploy Azure Kubernetes Service with Kubenet plugin, inside a custom VNET.
+This repository contains all you need to use Terraform to deploy Azure Kubernetes Service with Vnet and Container Registry
 
 It automatically creates:
 
 * A resource group
-* A virtual network with an address space of `10.1.0.0/16`
-* A subnet named `internal` with an address range of `10.1.0.0/24` (where the AKS worker nodes will land)
+* A virtual network 
+* Three subnets within the virtual network
+* NAT Gateway
+* Network Interfaces
+* Security Groups
+* Firewall
+* Azure Container Registry
 * An Azure Kubernetes Service cluster
 
 ## How it works
 
-All the AKS cluster definition is in the `tf/aks.tf` file. Some of the parameters are variable that can be overriden in the `tf/variables.tf` file.
+The terraform code for deploying the above infrastructure is divided in three modules - Networking , Kubernetes and ContainerRegistry. All the modules are in the `modules` directory with there individual documentations. 
 
 ## How to deploy
 
-You need to have Terraform installed and Azure CLI 2.0 installed, obviously.
+You need to have Terraform v1.2.2 installed and Azure CLI 2.0 installed, obviously. Follow [this article](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) to login with az cli if not sure
 
-Go to the `tf` directory:
-
-```bash
-cd tf
-```
-
-*Optional: update the `variables.tf` and `aks.tf` files with desired values.*
-
-Export the following environment variables for the service principal client id and client secret that should be used by the Azure Kubernetes Service cluster:
+Clone this repository
 
 ```bash
-export TF_VAR_client_secret=YOUR_CLIENT_SECRET
-export TF_VAR_client_id=YOUR_CLIENT_ID
+cd azure-boilerplate
 ```
+
+*Optional: update the `variables.tf` files with desired values.*
+
 
 Initialize Terraform
 
@@ -54,10 +53,10 @@ Wait for the deployment to be completed.
 
 ## How to destroy
 
-Go to the `tf` directory:
+Go to the `azure-boilerplate` directory:
 
 ```bash
-cd tf
+cd azure-boilerplate
 ```
 
 Call Terraform destroy:
