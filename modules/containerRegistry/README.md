@@ -1,7 +1,7 @@
 demo terraform module
 ===========
 
-A terraform module to provide a <resource name> in AWS/AZURE/ETC,ETC.
+A terraform module to create container registry in Azure cloud.
 
 This should be used an a generic template to be included in every terraform module.
 
