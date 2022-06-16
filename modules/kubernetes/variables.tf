@@ -24,7 +24,7 @@ variable "nodePoolType" {
 
 variable "nodePoolVMSize" {
   type        = string
-  description = "Type of node pool"
+  description = "Type of virtual machine to be used in kubernetes cluster"
   default     = "standard_d2ads_v5"
 }
 
