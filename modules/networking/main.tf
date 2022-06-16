@@ -1,5 +1,3 @@
-# We strongly recommend using the required_providers block to set the
-# Azure Provider source and version being used
 terraform {
   required_providers {
     azurerm = {
@@ -9,15 +7,14 @@ terraform {
   }
 }
 
-# Configure the Microsoft Azure Provider
+
 provider "azurerm" {
   features {}
 }
 
-# Create a resource group
 resource "azurerm_resource_group" "resourceGroup" {
-  name     = "resourceGroup"
-  location = "West Europe"
+  name     = var.resourceGroup
+  location = var.location
 }
 
 resource "azurerm_network_security_group" "securityGroup" {
@@ -58,8 +55,8 @@ resource "azurerm_virtual_network" "vNet" {
   name                = "vNet"
   location            = azurerm_resource_group.resourceGroup.location
   resource_group_name = azurerm_resource_group.resourceGroup.name
-  address_space       = ["10.0.0.0/16"]
-  dns_servers         = ["10.0.0.4", "10.0.0.5"]
+  address_space       = var.vnetAddressSpace
+  dns_servers         = var.dnsServerAddress
 
   tags = {
     environment = "Production"
@@ -70,14 +67,14 @@ resource "azurerm_subnet" "subnet1" {
   name                 = "subnet1"
   resource_group_name  = azurerm_resource_group.resourceGroup.name
   virtual_network_name = azurerm_virtual_network.vNet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = var.subnet1CIDR
 }
 
 resource "azurerm_subnet" "subnet2" {
   name                 = "subnet2"
   resource_group_name  = azurerm_resource_group.resourceGroup.name
   virtual_network_name = azurerm_virtual_network.vNet.name
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = var.subnet2CIDR
 }
 
 resource "azurerm_network_interface" "networkInterface" {
@@ -112,7 +109,7 @@ resource "azurerm_subnet" "subnet3" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = azurerm_resource_group.resourceGroup.name
   virtual_network_name = azurerm_virtual_network.vNet.name
-  address_prefixes     = ["10.0.3.0/24"]
+  address_prefixes     = var.subnet3CIDR
 }
 
 resource "azurerm_public_ip" "publicIp" {
