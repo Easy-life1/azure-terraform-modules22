@@ -11,15 +11,11 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "resourceGroup" {
-  name     = var.resourceGroup
-  location = var.location
-}
 
 resource "azurerm_kubernetes_cluster" "k8s" {
   name                = var.ProjectName
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name # th RG the single cluster entity goes is
+  location            = var.location
+  resource_group_name = var.resourceGroup # th RG the single cluster entity goes is
   dns_prefix          = var.ProjectName
   node_resource_group = "K8S${azurerm_resource_group.resourceGroup.name}" #  all the k8s' entities must be in fdifferent RG than where the cluster object itself is
   #enable_pod_security_policy      = true

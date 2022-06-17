@@ -12,15 +12,10 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "resourceGroup" {
-  name     = var.resourceGroup
-  location = var.location
-}
-
 resource "azurerm_container_registry" "acr" {
   name                = var.ProjectName
-  resource_group_name = azurerm_resource_group.resourceGroup.name
-  location            = azurerm_resource_group.resourceGroup.location
+  resource_group_name = var.resourceGroup
+  location            = var.location
   sku                 = var.registrySKU
   admin_enabled       = var.containerAdminEnabled
   georeplications {
