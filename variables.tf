@@ -1,7 +1,7 @@
 variable "resourceGroup" {
   type        = string
   description = "Azure Resourcegroup name"
-  default     = "resourceGroup"
+  default     = "azureresourceGroup"
 }
 
 variable "location" {
@@ -13,7 +13,7 @@ variable "location" {
 variable "ProjectName" {
   type        = string
   description = "Azure project name"
-  default     = "azure3tier"
+  default     = "azure3ti"
 }
 
 variable "vnetAddressSpace" {
@@ -121,19 +121,19 @@ variable "dnsServiceIP" {
 variable "client_id" {
   type        = string
   description = "Service principal client id for access to k8s cluster"
-  default     = "fa6c33d1-03dd-4226-8c19-e84bfdc824cc"
+  default     = "88d48044-a7b9-4b46-97ff-69fea6a1a151"
 }
 
 variable "client_secret" {
   type        = string
   description = "Service principal client secret for access to k8s cluster"
-  default     = "XmJ8Q~GYOYMNm4NuXJ2GxhnPQn_6RbijO54DYad."
+  default     = "c7b49390-4f24-41aa-80db-1bd99b212a13"
 }
 
 variable "principalID" {
   type        = string
   description = "principal id"
-  default     = "3b796ae2-41ab-495f-8306-a86e7df84aa0"
+  default     = "37057631-1b3a-40de-bbf3-3f5f2b6ee2cc"
 }
 
 variable "registrySKU" {

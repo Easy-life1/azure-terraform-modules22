@@ -12,15 +12,10 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "resourceGroup" {
-  name     = var.resourceGroup
-  location = var.location
-}
-
 resource "azurerm_network_security_group" "securityGroup" {
   name                = "securityGroup"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
 }
 
 resource "azurerm_network_security_rule" "networkSecRule" {
@@ -33,7 +28,7 @@ resource "azurerm_network_security_rule" "networkSecRule" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.resourceGroup.name
+  resource_group_name         = var.resourceGroup
   network_security_group_name = azurerm_network_security_group.securityGroup.name
 }
 
@@ -47,14 +42,14 @@ resource "azurerm_network_security_rule" "networkSecRule1" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.resourceGroup.name
+  resource_group_name         = var.resourceGroup
   network_security_group_name = azurerm_network_security_group.securityGroup.name
 }
 
 resource "azurerm_virtual_network" "vNet" {
   name                = "vNet"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
   address_space       = var.vnetAddressSpace
   dns_servers         = var.dnsServerAddress
 
@@ -65,22 +60,22 @@ resource "azurerm_virtual_network" "vNet" {
 
 resource "azurerm_subnet" "subnet1" {
   name                 = "subnet1"
-  resource_group_name  = azurerm_resource_group.resourceGroup.name
+  resource_group_name  = var.resourceGroup
   virtual_network_name = azurerm_virtual_network.vNet.name
   address_prefixes     = var.subnet1CIDR
 }
 
 resource "azurerm_subnet" "subnet2" {
   name                 = "subnet2"
-  resource_group_name  = azurerm_resource_group.resourceGroup.name
+  resource_group_name  = var.resourceGroup
   virtual_network_name = azurerm_virtual_network.vNet.name
   address_prefixes     = var.subnet2CIDR
 }
 
 resource "azurerm_network_interface" "networkInterface" {
   name                = "networkInterface"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -96,8 +91,8 @@ resource "azurerm_network_interface_security_group_association" "networkInterfac
 
 resource "azurerm_nat_gateway" "natGateway" {
   name                = "natGateway"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
 }
 
 resource "azurerm_subnet_nat_gateway_association" "natGatewayAss" {
@@ -107,23 +102,23 @@ resource "azurerm_subnet_nat_gateway_association" "natGatewayAss" {
 
 resource "azurerm_subnet" "subnet3" {
   name                 = "AzureFirewallSubnet"
-  resource_group_name  = azurerm_resource_group.resourceGroup.name
+  resource_group_name  = var.resourceGroup
   virtual_network_name = azurerm_virtual_network.vNet.name
   address_prefixes     = var.subnet3CIDR
 }
 
 resource "azurerm_public_ip" "publicIp" {
   name                = "publicIp"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
 resource "azurerm_firewall" "fireWall" {
   name                = "fireWall"
-  location            = azurerm_resource_group.resourceGroup.location
-  resource_group_name = azurerm_resource_group.resourceGroup.name
+  location            = var.location
+  resource_group_name = var.resourceGroup
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
   ip_configuration {

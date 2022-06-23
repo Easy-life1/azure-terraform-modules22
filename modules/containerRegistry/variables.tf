@@ -7,7 +7,7 @@ variable "resourceGroup" {
 variable "ProjectName" {
   type        = string
   description = "Azure project name"
-  default     = "azure3tier"
+  default     = "azure3tierssss"
 }
 
 variable "location" {
